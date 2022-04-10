@@ -10,8 +10,13 @@ from plugins.agent_plugin import AgentPlugin
 from nltk.corpus import wordnet
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+import wikipedia
+
 class Agent:
     lastname = False
+
+    wikiQuery = ""      # for wikipedia API
+    maps = False        # for google directions
     def __init__(self, plugins, nltk_dependencies):
         print("Downloading nltk dependencies")
         for dependency in nltk_dependencies:
@@ -24,7 +29,28 @@ class Agent:
 
         print(self.plugins)
         #TODO: Spelling Check, call a function within agent to fix the query to realistic words --GABE or whoever gets to it
+
         check = self.plugins[0].parse(query)
+
+        if(self.wikiQuery != ""):
+            l = check.lower()
+            if("no" in l):
+                self.wikiQuery = ""
+                return "Alright. I won't search Wikipedia for that."
+            if("yes" in check.lower()):
+                summary = wikipedia.summary(self.wikiQuery, sentences=3).split("\n")[0]
+                self.wikiQuery = ""
+                return summary
+            else:
+                self.wikiQuery = ""
+                return "Since you didn't confirm the query, I won't search Wikipedia."
+
+        if(check.lower().startswith("search wikipedia for ")):
+            self.wikiQuery = check[21:] #chop off the start of the text
+            return "I can't guarantee that will be relevant to anyone's health. Would you like to proceed? (Type 'Yes' to confirm.)"
+
+        print(check)
+
         #TODO Part of speach tagging --Nathan
         pos_tag = self.plugins[1].parse(query)
         #TODO: Named Entity Recognition: Recognize names given and append
@@ -76,8 +102,6 @@ class Agent:
                 base = "Tell them: \"" + base + "\""
             if "they" in check:
                 base = "Tell them: \"" + base + "\""
-
-            
 
         return base 
 
