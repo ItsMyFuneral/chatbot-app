@@ -1,14 +1,26 @@
-# 310 Project: Chatbot App
+# 310 Project: Chatbot App - Individual Assignment
 
-## Assigment 3 note
+Individual Assignment by Jordan Colledge. I would like to say a great 'thank you' for the extension for the class on this assignment -- my schedule was very busy leading up to the Friday deadline, and working on this in addition to everything else would have caused a great deal of stress.
 
-Project-Report.pdf is only up-to-date as of Assignment 2. For the required documentation, see either the Word doc you came from, or further down in this Readme, under the "Assignment 3 Project Report" section especially.
+## List of APIs
+
+Wikipedia API: When the user asks the bot to "search Wikipedia for" something, the bot will search Wikipedia's pages for that thing. Two things worth noting on this:
+
+- Firstly: The bot universally asks the user to confirm that they would like to search Wikipedia for the given query, whether it is health-related or not. I know there is a specific "Health" category on Wikipedia that can be accessed through the API. However, in testing I found that this presents issues with consistency on Wikipedia's end -- for example, the "Migraine" page (obviously health-related) is only in one category, that category being "Migraine." Not exactly helpful for our purposes. To avoid possible issues, I simply had the bot ask for confirmation for all searches.
+- Secondly: The bot takes the exact query the user types in, without running it through spellcheck. This is because some words - like "Kelowna" - get spellchecked by the bot, which would cause issues with Wikipedia. To avoid this, I simply assume the user spells it correctly.
+- See line 44 to see implementation of the API. Surrounding code can be found throughout agent.py. Essentially, after confirming the user wishes to search, I access the summary of the queried Wikipedia article and cut its length down to a reasonable size.
+
+Google Maps API: A triple implementation of Geocoding, Places, and Directions to find the nearest hospital to the user and provide directions to it, given an address.
+
+- Worth noting: The API key is stored in api_key.txt, which doesn't exist in the repo. To test it for yourself, create api_key.txt in the root of the project, and paste your Google API key and nothing else into the file.
+- See lines 51 to 67 in src/agent/agent.py to see the implmentation of the API.
+- Essentially, I use Geocoding to get the coordinates of the user's address and find the nearest hospital using Places, then use Directions with the user's coordinates and the hospital's address to provide directions to the hospital.
 
 ## Team 31 Members:
 
 Mohammad Al-surkhi
 
-Jordan Colledge
+Jordan Colledge (that's me!)
 
 Gabriel McLachlan
 
@@ -16,8 +28,9 @@ Jordan Ribbink
 
 Nathan Wright
 
-## Project Repo: 
-https://github.com/cosc310-project/chatbot-app/tree/dev
+## Project Repo:
+
+https://github.com/ItsMyFuneral/chatbot-app/tree/dev - Forked from https://github.com/cosc310-project/chatbot-app
 
 ## Project Description and Purpose
 
