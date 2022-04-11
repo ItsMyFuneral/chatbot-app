@@ -35,3 +35,5 @@ __pycache__
 .env
 
 chat_model
+
+api_key.txt
