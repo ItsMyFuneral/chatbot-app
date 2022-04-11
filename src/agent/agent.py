@@ -12,6 +12,9 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 import wikipedia
 
+import googlemaps
+from datetime import datetime
+
 class Agent:
     lastname = False
 
@@ -45,9 +48,34 @@ class Agent:
                 self.wikiQuery = ""
                 return "Since you didn't confirm the query, I won't search Wikipedia."
 
+        if(self.maps != False):
+            gmaps = googlemaps.Client(key="AIzaSyCx_jppqU0WyU2igTbZuCPlsINwp9BO4Sw")
+            latitude = gmaps.geocode(query)[0]['geometry']['location']['lat']
+            longitude = gmaps.geocode(query)[0]['geometry']['location']['lng']
+
+            hospital = gmaps.places(query="hospital",location=[latitude,longitude],radius=10000).get('results')[0]
+            directions_result = gmaps.directions(origin=[latitude,longitude],destination="place_id:" + hospital.get("place_id"), mode = "driving")[0]
+
+            steps = directions_result['legs'][0]['steps']
+            self.maps = False
+
+            ret = ""
+            for step in steps:
+                ret += step['html_instructions'].replace('<b>','').replace('</b>','').replace('<div style="font-size:0.9em">','').replace('</div>','')
+                ret += ". "
+            return ret
+
         if(check.lower().startswith("search wikipedia for ")):
             self.wikiQuery = check[21:] #chop off the start of the text
             return "I can't guarantee that will be relevant to anyone's health. Would you like to proceed? (Type 'Yes' to confirm.)"
+            # The reason this happens for all queries is because, as far as I could tell, there is no way to universally differentiate between
+            # health-related and non-health-related articles on Wikipedia. Many health articles have "Health" as a category on the article,
+            # but even something like the "Migraine" article is improperly categorized, only being in the "Migraine" category.
+            # Better safe than sorry.
+
+        if("directions" in check.lower()):
+            self.maps = True
+            return "I'll need to know your address to direct you to the hospital. Please format the address like: 9999 Elm Street, Kelowna, BC."
 
         print(check)
 
