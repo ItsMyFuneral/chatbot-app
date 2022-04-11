@@ -49,7 +49,8 @@ class Agent:
                 return "Since you didn't confirm the query, I won't search Wikipedia."
 
         if(self.maps != False):
-            gmaps = googlemaps.Client(key="AIzaSyCx_jppqU0WyU2igTbZuCPlsINwp9BO4Sw")
+            apiKey = open('../../api_key.txt').readline()
+            gmaps = googlemaps.Client(key=apiKey)
             latitude = gmaps.geocode(query)[0]['geometry']['location']['lat']
             longitude = gmaps.geocode(query)[0]['geometry']['location']['lng']
 
