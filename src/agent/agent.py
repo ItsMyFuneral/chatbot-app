@@ -49,7 +49,7 @@ class Agent:
                 return "Since you didn't confirm the query, I won't search Wikipedia."
 
         if(self.maps != False):
-            apiKey = open('../../api_key.txt').readline()
+            apiKey = open('api_key.txt').readline()
             gmaps = googlemaps.Client(key=apiKey)
             latitude = gmaps.geocode(query)[0]['geometry']['location']['lat']
             longitude = gmaps.geocode(query)[0]['geometry']['location']['lng']
@@ -62,7 +62,7 @@ class Agent:
 
             ret = ""
             for step in steps:
-                ret += step['html_instructions'].replace('<b>','').replace('</b>','').replace('<div style="font-size:0.9em">','').replace('</div>','')
+                ret += step['html_instructions'].replace('<b>','').replace('</b>','').replace('<div style="font-size:0.9em">','. ').replace('</div>','')
                 ret += ". "
             return ret
 
