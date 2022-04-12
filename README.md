@@ -84,7 +84,12 @@ Open terminal in the root of the project and run this command:
 
     This may take a bit of time, but after it's run once, it doesn't need to be run again.
 
-4.  Launch development server using the following bash command in root of project
+4.  Create api_key.txt in local copy of repository.
+
+    - Create file api_key.txt in root of repository
+    - Paste your Google API key with Geocoding, Places and Directions enabled to api_key.txt and nothing else.
+
+5.  Launch development server using the following bash command in root of project
 
     ```bash
     npm run start
