@@ -28,10 +28,6 @@ Jordan Ribbink
 
 Nathan Wright
 
-## Project Repo:
-
-https://github.com/ItsMyFuneral/chatbot-app/tree/dev - Forked from https://github.com/cosc310-project/chatbot-app
-
 ## Project Description and Purpose
 
 Description copied and pasted from the Project Plan:
